@@ -1,13 +1,7 @@
 @import "tailwindcss";
 
 /* Clash Display from Fontshare CDN */
-@font-face {
-  font-family: "Clash Display";
-  src: url("https://api.fontshare.com/v2/css?f[]=clash-display@600&display=swap") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
+/* Clash Display loaded via CDN link in layout.js */
 
 @theme inline {
   /* Brand Colors */

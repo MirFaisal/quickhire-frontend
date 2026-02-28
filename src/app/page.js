@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import HeroSearch from "@/components/HeroSearch";
+import HeroBanner from "@/components/HeroBanner";
+import CompanyLogos from "@/components/CompanyLogos";
 import CategoryCard from "@/components/CategoryCard";
 import { FeaturedJobCard, LatestJobCard } from "@/components/JobCard";
 import { ArrowRightIcon } from "@/components/icons";
@@ -32,70 +33,9 @@ export default async function HomePage() {
     <>
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-[1192px] px-6 pt-16 pb-20 lg:px-0">
-            <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-between">
-              {/* Left Content */}
-              <div className="max-w-xl text-center lg:text-left">
-                <h1 className="font-clash text-5xl font-semibold leading-tight text-neutral-100 sm:text-6xl lg:text-[72px] lg:leading-[1.1]">
-                  Discover
-                  <br />
-                  more than
-                  <br />
-                  <span className="text-secondary">5000+ Jobs</span>
-                </h1>
-                <p className="mt-6 text-lg leading-relaxed text-neutral-60">
-                  Great platform for the job seeker that searching for new career heights and passionate about
-                  startups.
-                </p>
+        <HeroBanner />
 
-                {/* Search Bar */}
-                <div className="mt-8">
-                  <HeroSearch />
-                </div>
-
-                {/* Popular Tags */}
-                <p className="mt-6 text-base text-neutral-60">
-                  Popular :{" "}
-                  <span className="text-neutral-100">UI Designer, UX Researcher, Android, Admin</span>
-                </p>
-              </div>
-
-              {/* Right Hero Image Placeholder */}
-              <div className="hidden lg:block">
-                <div className="relative h-[400px] w-[500px]">
-                  {/* Decorative gradient pattern */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="h-80 w-80 rounded-full bg-tertiary/50"></div>
-                  </div>
-                  <div className="absolute top-8 right-8 rounded-xl bg-white p-4 shadow-lg">
-                    <p className="text-3xl font-bold text-primary">5000+</p>
-                    <p className="text-sm text-neutral-60">Job Openings</p>
-                  </div>
-                  <div className="absolute bottom-8 left-8 rounded-xl bg-white p-4 shadow-lg">
-                    <p className="text-3xl font-bold text-accent-green">200+</p>
-                    <p className="text-sm text-neutral-60">Companies</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Company Logos Section */}
-        <section className="bg-white py-10">
-          <div className="mx-auto max-w-[1192px] px-6 lg:px-0">
-            <p className="mb-8 text-center text-lg text-neutral-60">Companies we helped grow</p>
-            <div className="flex flex-wrap items-center justify-center gap-10 opacity-50 grayscale md:gap-16">
-              {["Vodafone", "Intel", "Tesla", "AMD", "Talkit"].map((name) => (
-                <span key={name} className="text-2xl font-bold text-neutral-100">
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
+        <CompanyLogos />
 
         {/* Explore by Category */}
         <section className="bg-white py-16">
