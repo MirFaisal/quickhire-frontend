@@ -5,7 +5,8 @@ import HeroBanner from "@/components/HeroBanner";
 import CompanyLogos from "@/components/CompanyLogos";
 import ExploreCategory from "@/components/ExploreCategory";
 import CTASection from "@/components/CTASection";
-import { FeaturedJobCard, LatestJobCard } from "@/components/JobCard";
+import FeaturedJobs from "@/components/FeaturedJobs";
+import { LatestJobCard } from "@/components/JobCard";
 import { ArrowRightIcon } from "@/components/icons";
 import { getJobs } from "@/lib/api";
 
@@ -40,30 +41,7 @@ export default async function HomePage() {
 
         <CTASection />
 
-        {/* Featured Jobs */}
-        <section className="bg-white py-16">
-          <div className="mx-auto max-w-[1192px] px-6 lg:px-0">
-            <div className="mb-12 flex items-end justify-between">
-              <h2 className="font-clash text-4xl font-semibold text-neutral-100 sm:text-5xl">
-                Featured <span className="text-secondary">jobs</span>
-              </h2>
-              <Link
-                href="/jobs"
-                className="hidden items-center gap-2 text-base font-semibold text-primary transition hover:underline sm:flex">
-                Show all jobs <ArrowRightIcon className="h-5 w-5" />
-              </Link>
-            </div>
-            {featuredJobs.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {featuredJobs.map((job) => (
-                  <FeaturedJobCard key={job._id} job={job} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-neutral-60">No jobs available yet. Check back soon!</p>
-            )}
-          </div>
-        </section>
+        <FeaturedJobs jobs={featuredJobs} />
 
         {/* Latest Jobs Open */}
         <section className="bg-background-light py-16">
