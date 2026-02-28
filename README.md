@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# QuickHire Frontend
+
+Public-facing frontend for the **QuickHire** job board platform. Built with **Next.js 16**, **Tailwind CSS
+v4**, and **React 19** — featuring server-side rendering, responsive design, and a clean UI based on Figma
+designs.
+
+## Features
+
+- **Landing Page** — Hero section with search, company logos, category explorer, featured jobs, latest jobs,
+  and CTA
+- **Job Listings** — Browse all jobs with search by keyword, filter by category, and filter by location
+- **Job Detail** — Full job description with company overview sidebar and application form
+- **Apply Flow** — Submit applications (name, email, resume link, cover note) directly from job pages
+- **Server Components** — Pages use Next.js App Router server components for fast initial loads
+- **Responsive Design** — Fully responsive across desktop, tablet, and mobile
+- **SEO** — Dynamic meta titles/descriptions on every page
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **React 19**
+- **Tailwind CSS v4**
+- **Epilogue** (body font, Google Fonts)
+- **Clash Display** (heading font, Fontshare)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- Backend API running at `http://localhost:5000`
+
+### Installation
+
+```bash
+npm install
+```
+
+### Environment
+
+Create `.env.local`:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── globals.css          # Tailwind + design tokens
+│   ├── layout.js            # Root layout with fonts & meta
+│   ├── loading.js           # Loading spinner
+│   ├── not-found.js         # 404 page
+│   ├── page.js              # Landing page (server component)
+│   └── jobs/
+│       ├── page.js           # Job listings (server component)
+│       ├── JobListingsClient.js  # Client-side search/filter
+│       └── [id]/
+│           ├── page.js       # Job detail (server component)
+│           └── ApplyForm.js  # Application form (client component)
+├── components/
+│   ├── Navbar.js            # Navigation bar
+│   ├── Footer.js            # Footer
+│   ├── HeroSearch.js        # Hero search form
+│   ├── JobCard.js           # FeaturedJobCard + LatestJobCard
+│   ├── CategoryCard.js      # Category card
+│   └── icons.js             # SVG icon components
+└── lib/
+    └── api.js               # API utility functions
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design System
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Token         | Value     |
+| ------------- | --------- |
+| Primary       | `#4640DE` |
+| Secondary     | `#CCCCF5` |
+| Neutral 100   | `#25324B` |
+| Neutral 80    | `#515B6F` |
+| Neutral 60    | `#7C8493` |
+| Background    | `#F8F8FD` |
+| Accent Green  | `#56CDAD` |
+| Accent Yellow | `#FFB836` |
+| Accent Red    | `#FF6550` |
+| Accent Blue   | `#26A4FF` |
 
-## Deploy on Vercel
+## API Endpoints Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Method | Endpoint            | Description                                                  |
+| ------ | ------------------- | ------------------------------------------------------------ |
+| GET    | `/api/jobs`         | List all jobs (supports `?search`, `?category`, `?location`) |
+| GET    | `/api/jobs/:id`     | Get single job                                               |
+| GET    | `/api/categories`   | List all categories                                          |
+| POST   | `/api/applications` | Submit application                                           |
