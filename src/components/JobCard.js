@@ -19,11 +19,20 @@ function getTagStyle(label) {
 }
 
 /* ── Category tag pill (Figma: rounded-[80px] px-[10px] py-[6px]) ── */
-export function JobTag({ label }) {
+export function JobTag({ label, variant = "filled" }) {
   const s = getTagStyle(label);
+  if (variant === "outline") {
+    return (
+      <span
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-[80px] border px-[10px] py-[6px] text-[14px] font-semibold leading-[1.6]"
+        style={{ borderColor: s.text, color: s.text }}>
+        {label}
+      </span>
+    );
+  }
   return (
     <span
-      className="inline-block whitespace-nowrap rounded-[80px] px-[10px] py-[6px] text-[14px] font-semibold leading-[1.6]"
+      className="inline-flex items-center justify-center whitespace-nowrap rounded-[80px] px-[10px] py-[6px] text-[14px] font-semibold leading-[1.6]"
       style={{ backgroundColor: s.bg, color: s.text }}>
       {label}
     </span>
@@ -132,28 +141,36 @@ export function FeaturedJobCard({ job }) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   LatestJobCard — row layout with company icon
+   LatestJobCard — Figma 501:1600 exact specs
+   Card: bg-white flex gap-[24px] px-[40px] py-[24px] (no border)
    ═══════════════════════════════════════════════════════════ */
 export function LatestJobCard({ job }) {
   const categoryName = typeof job.category === "object" ? job.category?.name : job.category || "";
 
   return (
-    <Link href={`/jobs/${job._id}`} className="group block">
-      <div className="flex items-start gap-[24px] border border-[#D6DDEB] bg-white p-[24px] transition-shadow hover:shadow-md">
-        {/* Company Logo */}
-        <CompanyLogo company={job.company} size={64} />
+    <Link href={`/jobs/${job._id}`} className="block">
+      <div className="flex items-start gap-[24px] bg-white px-[40px] py-[24px]">
+        {/* Company Logo — 80×80 */}
+        <CompanyLogo company={job.company} size={80} />
 
         {/* Content */}
-        <div className="flex-1">
+        <div className="flex flex-col items-start gap-[8px]">
+          {/* Job Title */}
           <p className="text-[20px] font-semibold leading-[1.2] text-[#25324B]">{job.title}</p>
-          <div className="mt-[4px] flex items-center gap-[8px]">
+
+          {/* Company · Location */}
+          <div className="flex h-[27px] items-center gap-[8px]">
             <span className="text-[16px] font-normal leading-[1.6] text-[#515B6F]">{job.company}</span>
-            <span className="inline-block h-[4px] w-[4px] rounded-full bg-[#515B6F]" />
+            <span className="inline-block h-[4px] w-[4px] shrink-0 rounded-full bg-[#515B6F]" />
             <span className="text-[16px] font-normal leading-[1.6] text-[#515B6F]">{job.location}</span>
           </div>
-          <div className="mt-[12px] flex flex-wrap gap-[8px]">
-            <JobTag label={job.type || "Full Time"} />
-            {categoryName && <JobTag label={categoryName} />}
+
+          {/* Tags: filled type + divider + outline category tags */}
+          <div className="flex items-start gap-[8px]">
+            <JobTag label={job.type || "Full-Time"} />
+            {/* Vertical divider */}
+            <div className="w-px self-stretch bg-[#D6DDEB]" />
+            {categoryName && <JobTag label={categoryName} variant="outline" />}
           </div>
         </div>
       </div>
