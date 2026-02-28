@@ -149,7 +149,7 @@ export function LatestJobCard({ job }) {
 
   return (
     <Link href={`/jobs/${job._id}`} className="block">
-      <div className="flex items-start gap-[24px] bg-white px-[40px] py-[24px]">
+      <div className="flex flex-col items-start gap-[24px] bg-white p-[16px] lg:flex-row lg:px-[40px] lg:py-[24px]">
         {/* Company Logo — 80×80 */}
         <CompanyLogo company={job.company} size={80} />
 

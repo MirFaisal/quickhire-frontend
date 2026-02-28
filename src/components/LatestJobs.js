@@ -55,12 +55,12 @@ export default function LatestJobs({ jobs = [] }) {
         </g>
       </svg>
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 pt-[72px] pb-[72px] lg:px-[124px]">
-        <div className="flex flex-col gap-[48px]">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-[16px] py-[40px] lg:px-[124px] lg:py-[72px]">
+        <div className="flex flex-col gap-[24px] lg:gap-[48px]">
           {/* ── Title Row ── */}
           <div className="flex items-end justify-between">
             <h2
-              className="font-clash text-[32px] font-semibold leading-[1.1] text-[#25324B] sm:text-[40px] lg:text-[48px]"
+              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px]"
               style={{ fontFeatureSettings: "'cv11' 1" }}>
               Latest <span className="text-[#26A4FF]">jobs open</span>
             </h2>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MenuIcon, CloseIcon } from "./icons";
+import Image from "next/image";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,24 +17,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <div className="relative mt-[2px] h-[32px] w-[32px] shrink-0 overflow-hidden rounded-full bg-[#4640DE]">
-                <svg
-                  className="absolute left-[7px] top-[4px] -rotate-90"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8.5" cy="8.5" r="5.5" stroke="white" strokeWidth="2.2" fill="none" />
-                  <line
-                    x1="12.5"
-                    y1="12.5"
-                    x2="17"
-                    y2="17"
-                    stroke="white"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Image></Image>
               </div>
               <span
                 className="ml-[8px] text-[24px] font-bold leading-[1.5] tracking-[-0.24px] text-[#25324B]"
