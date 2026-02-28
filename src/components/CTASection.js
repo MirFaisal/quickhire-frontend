@@ -8,7 +8,8 @@ import Link from "next/link";
 export default function CTASection() {
   return (
     <section className="bg-white">
-      <div className="relative mx-auto max-w-[1440px] overflow-hidden px-6 py-[72px] lg:px-[124px]">
+      {/* ── Desktop Layout ── */}
+      <div className="relative mx-auto hidden max-w-[1440px] overflow-hidden px-6 py-[72px] lg:block lg:px-[124px]">
         {/* ── Purple background polygon shape ── */}
         <svg
           className="absolute inset-0 h-full w-full"
@@ -23,9 +24,9 @@ export default function CTASection() {
         {/* ── Content: text left + dashboard right ── */}
         <div className="relative flex min-h-[414px] items-center">
           {/* Left: text content */}
-          <div className="z-10 flex w-full flex-col gap-[24px] py-[93px] pl-[70px] lg:w-[364px]">
+          <div className="z-10 flex w-[364px] flex-col gap-[24px] py-[93px] pl-[70px]">
             <h2
-              className="font-clash text-[36px] font-semibold leading-[1.1] text-white sm:text-[48px]"
+              className="font-clash text-[48px] font-semibold leading-[1.1] text-white"
               style={{ fontFeatureSettings: "'cv11' 1" }}>
               Start posting
               <br />
@@ -43,8 +44,40 @@ export default function CTASection() {
 
           {/* Right: Dashboard mockup illustration */}
           <div
-            className="pointer-events-none absolute right-0 top-[68px] z-10 hidden h-[346px] overflow-hidden bg-white lg:block"
+            className="pointer-events-none absolute right-0 top-[68px] z-10 h-[346px] overflow-hidden bg-white"
             style={{ width: "634px" }}>
+            <DashboardMockup />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Mobile Layout (Figma 501:4376) ── */}
+      <div className="relative overflow-hidden lg:hidden">
+        {/* Solid purple background */}
+        <div className="bg-[#4640DE] px-[16px] pb-[60px] pt-[88px]">
+          {/* Text content — centered */}
+          <div className="flex flex-col items-center gap-[16px]">
+            <h2
+              className="font-clash text-center text-[32px] font-semibold leading-[1.2] text-white"
+              style={{ fontFeatureSettings: "'cv11' 1" }}>
+              Start posting jobs today
+            </h2>
+            <p className="text-center text-[16px] font-medium leading-[1.6] text-white">
+              Start posting jobs for only $10.
+            </p>
+            <Link
+              href="/"
+              className="flex w-full items-center justify-center bg-white px-[24px] py-[12px] text-[16px] font-bold leading-[1.6] text-[#4640DE]">
+              Sign Up For Free
+            </Link>
+          </div>
+        </div>
+
+        {/* Dashboard mockup — overlaps from purple into white */}
+        <div className="relative -mt-[10px] px-[16px] pb-[24px]">
+          <div
+            className="pointer-events-none overflow-hidden bg-white shadow-[0px_79px_128px_0px_rgba(192,192,192,0.09),0px_28.836px_46.722px_0px_rgba(192,192,192,0.06)]"
+            style={{ height: "246px" }}>
             <DashboardMockup />
           </div>
         </div>
