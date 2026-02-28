@@ -1,9 +1,30 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LatestJobCard, JobTag } from "@/components/JobCard";
 import { SearchIcon, LocationIcon } from "@/components/icons";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+
+/* ── Debounce hook ── */
+function useDebounce(value, delay = 400) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);
+  }, [value, delay]);
+  return debounced;
+}
+
+/* ── Build URLSearchParams helper ── */
+function buildParams({ search, category, location }) {
+  const p = new URLSearchParams();
+  if (search?.trim()) p.set("search", search.trim());
+  if (category) p.set("category", category);
+  if (location?.trim()) p.set("location", location.trim());
+  return p;
+}
 
 export default function JobListingsClient({
   initialJobs,
@@ -23,59 +44,108 @@ export default function JobListingsClient({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(initialError || null);
 
-  const fetchJobs = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      if (search.trim()) params.set("search", search.trim());
-      if (selectedCategory) params.set("category", selectedCategory);
-      if (location.trim()) params.set("location", location.trim());
+  // Debounce text inputs — auto-search as-you-type
+  const debouncedSearch = useDebounce(search, 400);
+  const debouncedLocation = useDebounce(location, 400);
 
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-      const res = await fetch(`${API_BASE}/jobs?${params.toString()}`);
-      const data = await res.json();
+  // Abort controller ref for cancelling in-flight requests
+  const abortRef = useRef(null);
 
-      if (!res.ok) {
-        throw new Error(data.message || `Something went wrong (${res.status})`);
+  // Track if this is the initial mount to skip the first auto-fetch
+  const isInitialMount = useRef(true);
+
+  const fetchJobs = useCallback(
+    async (overrides = {}) => {
+      // Cancel any in-flight request
+      if (abortRef.current) abortRef.current.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const params = buildParams({
+          search: overrides.search ?? debouncedSearch,
+          category: overrides.category ?? selectedCategory,
+          location: overrides.location ?? debouncedLocation,
+        });
+
+        const res = await fetch(`${API_BASE}/jobs?${params.toString()}`, {
+          signal: controller.signal,
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || `Something went wrong (${res.status})`);
+        }
+
+        setJobs(data.data || data || []);
+      } catch (err) {
+        if (err.name === "AbortError") return; // request cancelled, ignore
+        console.error("Failed to fetch jobs:", err);
+        setError(err.message || "Failed to load jobs. Please try again.");
+        setJobs([]);
+      } finally {
+        setLoading(false);
       }
+    },
+    [debouncedSearch, selectedCategory, debouncedLocation],
+  );
 
-      setJobs(data.data || data || []);
-    } catch (err) {
-      console.error("Failed to fetch jobs:", err);
-      setError(err.message || "Failed to load jobs. Please try again.");
-      setJobs([]);
-    } finally {
-      setLoading(false);
+  // Sync URL + fetch when debounced values or category change
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
-  }, [search, selectedCategory, location]);
+    const params = buildParams({
+      search: debouncedSearch,
+      category: selectedCategory,
+      location: debouncedLocation,
+    });
+    router.replace(`/jobs?${params.toString()}`, { scroll: false });
+    fetchJobs();
+  }, [debouncedSearch, selectedCategory, debouncedLocation]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cleanup abort on unmount
+  useEffect(() => {
+    return () => {
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const params = new URLSearchParams();
-    if (search.trim()) params.set("search", search.trim());
-    if (selectedCategory) params.set("category", selectedCategory);
-    if (location.trim()) params.set("location", location.trim());
-    router.push(`/jobs?${params.toString()}`);
-    fetchJobs();
+    fetchJobs({ search, location }); // immediate, bypass debounce
+    const params = buildParams({ search, category: selectedCategory, location });
+    router.replace(`/jobs?${params.toString()}`, { scroll: false });
   };
 
   const handleCategoryClick = (catId) => {
-    const newCat = selectedCategory === catId ? "" : catId;
-    setSelectedCategory(newCat);
-    const params = new URLSearchParams();
-    if (search.trim()) params.set("search", search.trim());
-    if (newCat) params.set("category", newCat);
-    if (location.trim()) params.set("location", location.trim());
-    router.push(`/jobs?${params.toString()}`);
+    setSelectedCategory((prev) => (prev === catId ? "" : catId));
   };
 
-  useEffect(() => {
-    fetchJobs();
-  }, [selectedCategory, fetchJobs]);
+  const clearFilter = (key) => {
+    if (key === "search") setSearch("");
+    if (key === "location") setLocation("");
+    if (key === "category") setSelectedCategory("");
+  };
 
-  // Get unique locations from jobs
-  const locations = [...new Set(initialJobs.map((j) => j.location).filter(Boolean))];
+  const clearAll = () => {
+    setSearch("");
+    setLocation("");
+    setSelectedCategory("");
+  };
+
+  // Find selected category name for chip display
+  const selectedCategoryName = useMemo(
+    () => categories.find((c) => c._id === selectedCategory)?.name || "",
+    [categories, selectedCategory],
+  );
+
+  // Active filter count
+  const activeFilterCount = [search.trim(), selectedCategory, location.trim()].filter(Boolean).length;
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row">
@@ -83,7 +153,7 @@ export default function JobListingsClient({
       <aside className="w-full shrink-0 lg:w-64">
         {/* Search Form */}
         <form onSubmit={handleSearch} className="mb-6">
-          <div className="mb-4 flex items-center gap-2 rounded-lg border border-neutral-20 bg-white px-4 py-3">
+          <div className="mb-4 flex items-center gap-2 rounded-lg border border-neutral-20 bg-white px-4 py-3 transition-colors focus-within:border-primary">
             <SearchIcon className="h-5 w-5 shrink-0 text-neutral-60" />
             <input
               type="text"
@@ -92,8 +162,16 @@ export default function JobListingsClient({
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent text-sm text-neutral-100 outline-none placeholder:text-neutral-40"
             />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="shrink-0 text-neutral-40 hover:text-neutral-80">
+                ×
+              </button>
+            )}
           </div>
-          <div className="mb-4 flex items-center gap-2 rounded-lg border border-neutral-20 bg-white px-4 py-3">
+          <div className="mb-4 flex items-center gap-2 rounded-lg border border-neutral-20 bg-white px-4 py-3 transition-colors focus-within:border-primary">
             <LocationIcon className="h-5 w-5 shrink-0 text-neutral-60" />
             <input
               type="text"
@@ -102,11 +180,20 @@ export default function JobListingsClient({
               onChange={(e) => setLocation(e.target.value)}
               className="w-full bg-transparent text-sm text-neutral-100 outline-none placeholder:text-neutral-40"
             />
+            {location && (
+              <button
+                type="button"
+                onClick={() => setLocation("")}
+                className="shrink-0 text-neutral-40 hover:text-neutral-80">
+                ×
+              </button>
+            )}
           </div>
           <button
             type="submit"
-            className="w-full rounded-sm bg-primary py-3 text-sm font-bold text-white transition hover:bg-primary/90">
-            Search
+            disabled={loading}
+            className="w-full rounded-sm bg-primary py-3 text-sm font-bold text-white transition hover:bg-primary/90 disabled:opacity-60">
+            {loading ? "Searching..." : "Search"}
           </button>
         </form>
 
@@ -128,7 +215,7 @@ export default function JobListingsClient({
             ))}
             {selectedCategory && (
               <button
-                onClick={() => handleCategoryClick("")}
+                onClick={() => clearFilter("category")}
                 className="mt-2 text-left text-sm font-medium text-primary hover:underline">
                 Clear filter
               </button>
@@ -140,7 +227,7 @@ export default function JobListingsClient({
       {/* Job Results */}
       <div className="flex-1">
         {/* Results Header */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-neutral-100">All Jobs</h2>
             <p className="mt-1 text-sm text-neutral-60">
@@ -148,22 +235,46 @@ export default function JobListingsClient({
             </p>
           </div>
 
-          {/* Active Filters */}
-          <div className="hidden flex-wrap gap-2 sm:flex">
-            {search && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                &quot;{search}&quot;
-                <button
-                  onClick={() => {
-                    setSearch("");
-                    router.push("/jobs");
-                  }}
-                  className="ml-1 text-primary/60 hover:text-primary">
-                  ×
+          {/* Active Filter Chips */}
+          {activeFilterCount > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {search.trim() && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  &quot;{search.trim()}&quot;
+                  <button
+                    onClick={() => clearFilter("search")}
+                    className="ml-1 text-primary/60 hover:text-primary">
+                    ×
+                  </button>
+                </span>
+              )}
+              {selectedCategoryName && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  {selectedCategoryName}
+                  <button
+                    onClick={() => clearFilter("category")}
+                    className="ml-1 text-primary/60 hover:text-primary">
+                    ×
+                  </button>
+                </span>
+              )}
+              {location.trim() && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  📍 {location.trim()}
+                  <button
+                    onClick={() => clearFilter("location")}
+                    className="ml-1 text-primary/60 hover:text-primary">
+                    ×
+                  </button>
+                </span>
+              )}
+              {activeFilterCount > 1 && (
+                <button onClick={clearAll} className="text-xs font-medium text-red-500 hover:underline">
+                  Clear all
                 </button>
-              </span>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Results */}
