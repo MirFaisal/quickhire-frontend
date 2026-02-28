@@ -16,14 +16,7 @@ export default function Navbar() {
           <div className="flex items-center gap-[48px] self-stretch">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              <div className="relative mt-[2px] h-[32px] w-[32px] shrink-0 overflow-hidden rounded-full bg-[#4640DE]">
-                <Image></Image>
-              </div>
-              <span
-                className="ml-[8px] text-[24px] font-bold leading-[1.5] tracking-[-0.24px] text-[#25324B]"
-                style={{ fontFeatureSettings: "'cv11' 1" }}>
-                QuickHire
-              </span>
+              <Image src="/Logo.png" alt="QuickHire" width={152} height={36} className="mt-[2px] shrink-0" />
             </Link>
 
             {/* Desktop Nav Links (gap-16 from Figma) */}
