@@ -21,8 +21,8 @@ export default function Navbar() {
 
             {/* Desktop Nav Links */}
             <div className="hidden items-end gap-[16px] self-stretch md:flex">
-              <Link href="/jobs" className="flex flex-col items-start border-b-4 border-[#4640DE] py-[24px]">
-                <span className="text-[16px] font-medium leading-[1.6] text-[#4640DE]">Find Jobs</span>
+              <Link href="/jobs" className="flex flex-col items-start py-[24px]">
+                <span className="text-[16px] font-medium leading-[1.6] text-[#515B6F]">Find Jobs</span>
               </Link>
               <Link href="/" className="flex flex-col items-start py-[24px]">
                 <span className="text-[16px] font-medium leading-[1.6] text-[#515B6F]">Browse Companies</span>
