@@ -14,7 +14,7 @@ import {
 const categories = [
   { name: "Design", jobs: 235, icon: DesignIcon },
   { name: "Sales", jobs: 756, icon: SalesIcon },
-  { name: "Marketing", jobs: 140, icon: MarketingIcon, highlight: true },
+  { name: "Marketing", jobs: 140, icon: MarketingIcon },
   { name: "Finance", jobs: 325, icon: FinanceIcon },
   { name: "Technology", jobs: 436, icon: TechnologyIcon },
   { name: "Engineering", jobs: 542, icon: EngineeringIcon },
@@ -46,12 +46,12 @@ function ArrowRight({ className = "" }) {
 export default function ExploreCategory() {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-[1440px] px-6 pt-[72px] lg:px-[124px]">
-        <div className="flex flex-col gap-[48px]">
+      <div className="mx-auto max-w-[1440px] px-[16px] pt-[40px] lg:px-[124px] lg:pt-[72px]">
+        <div className="flex flex-col gap-[32px] lg:gap-[48px]">
           {/* ── Title Row ── */}
           <div className="flex items-end justify-between">
             <h2
-              className="font-clash text-[32px] font-semibold leading-[1.1] text-[#25324B] sm:text-[40px] lg:text-[48px]"
+              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px] lg:leading-[1.1]"
               style={{ fontFeatureSettings: "'cv11' 1" }}>
               Explore by <span className="text-[#26A4FF]">category</span>
             </h2>
@@ -61,24 +61,31 @@ export default function ExploreCategory() {
             </Link>
           </div>
 
-          {/* ── Category Grid: 2 rows × 4 cols, gap-32 ── */}
-          <div className="flex flex-col gap-[32px]">
+          {/* ── Desktop: Category Grid: 2 rows × 4 cols, gap-32 ── */}
+          <div className="hidden lg:flex lg:flex-col lg:gap-[32px]">
             {/* Row 1 */}
-            <div className="grid grid-cols-1 gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-4 gap-[32px]">
               {categories.slice(0, 4).map((cat) => (
                 <CategoryCard key={cat.name} category={cat} />
               ))}
             </div>
             {/* Row 2 */}
-            <div className="grid grid-cols-1 gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-4 gap-[32px]">
               {categories.slice(4, 8).map((cat) => (
                 <CategoryCard key={cat.name} category={cat} />
               ))}
             </div>
           </div>
 
+          {/* ── Mobile: Single column list (Figma 501:4375) ── */}
+          <div className="flex flex-col lg:hidden">
+            {categories.map((cat) => (
+              <MobileCategoryCard key={cat.name} category={cat} />
+            ))}
+          </div>
+
           {/* Mobile "Show all jobs" */}
-          <div className="pb-4 text-center sm:hidden">
+          <div className="pb-4 sm:hidden">
             <Link
               href="/jobs"
               className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
@@ -130,6 +137,33 @@ function CategoryCard({ category }) {
                 isActive ? "text-white" : "text-[#7C8493] group-hover:text-white"
               }`}
             />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/* ── Mobile Category Card (Figma 501:4375) ── */
+function MobileCategoryCard({ category }) {
+  const { name, jobs, icon: Icon } = category;
+
+  return (
+    <Link href={`/jobs?category=${name}`} className="block">
+      <div className="flex items-center gap-[32px] border border-[#D6DDEB] bg-white p-[16px]">
+        {/* Icon — 24px on mobile */}
+        <Icon className="h-[24px] w-[24px] shrink-0 text-[#4640DE]" />
+
+        {/* Category Name + Jobs Count */}
+        <div className="flex flex-1 flex-col gap-[2px]">
+          <p
+            className="font-clash text-[20px] font-semibold leading-[1.2] text-[#25324B]"
+            style={{ fontFeatureSettings: "'cv11' 1" }}>
+            {name === "Human Resource" ? "Human Resources" : name}
+          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[16px] font-normal leading-[1.6] text-[#7C8493]">{jobs} jobs available</p>
+            <ArrowRight className="h-[24px] w-[24px] text-[#7C8493]" />
           </div>
         </div>
       </div>
