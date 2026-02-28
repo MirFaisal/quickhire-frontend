@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { FeaturedJobCard } from "./JobCard";
-import { ArrowRightIcon } from "./icons";
+import SectionHeader, { MobileSectionLink } from "./SectionHeader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -14,19 +13,9 @@ export default function FeaturedJobs({ jobs = [] }) {
       <div className="mx-auto max-w-[1440px] px-[16px] pb-[40px] pt-0 lg:px-[124px] lg:pb-[72px]">
         <div className="flex flex-col gap-[24px] lg:gap-[48px]">
           {/* ── Title Row ── */}
-          <div className="flex items-end justify-between">
-            <h2
-              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px] lg:leading-[1.1]"
-              style={{ fontFeatureSettings: "'cv11' 1" }}>
-              Featured <span className="text-[#26A4FF]">jobs</span>
-            </h2>
-            <Link href="/jobs" className="hidden items-center gap-[16px] sm:flex">
-              <span className="text-[16px] font-semibold leading-[1.6] text-[#4640DE]">Show all jobs</span>
-              <span className="text-[#4640DE]">
-                <ArrowRightIcon className="h-6 w-6" />
-              </span>
-            </Link>
-          </div>
+          <SectionHeader>
+            Featured <span className="text-[#26A4FF]">jobs</span>
+          </SectionHeader>
 
           {/* ── Desktop: Job Cards Grid 2 rows × 4 cols ── */}
           {featuredJobs.length > 0 ? (
@@ -70,14 +59,7 @@ export default function FeaturedJobs({ jobs = [] }) {
           )}
 
           {/* Mobile "Show all jobs" */}
-          <div className="sm:hidden">
-            <Link
-              href="/jobs"
-              className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
-              Show all jobs
-              <ArrowRightIcon className="h-6 w-6" />
-            </Link>
-          </div>
+          <MobileSectionLink />
         </div>
       </div>
     </section>

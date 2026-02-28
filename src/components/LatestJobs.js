@@ -1,11 +1,6 @@
-import Link from "next/link";
 import { LatestJobCard } from "./JobCard";
-import { ArrowRightIcon } from "./icons";
+import SectionHeader, { MobileSectionLink } from "./SectionHeader";
 
-/* ══════════════════════════════════════════════════════════════
-   Latest Jobs Open
-   BG: #F8F8FD with diagonal line pattern on right
-   ══════════════════════════════════════════════════════════════ */
 export default function LatestJobs({ jobs = [] }) {
   const latestJobs = jobs.slice(0, 8);
 
@@ -43,19 +38,9 @@ export default function LatestJobs({ jobs = [] }) {
       <div className="relative z-10 mx-auto max-w-[1440px] px-[16px] py-[40px] lg:px-[124px] lg:py-[72px]">
         <div className="flex flex-col gap-[24px] lg:gap-[48px]">
           {/* ── Title Row ── */}
-          <div className="flex items-end justify-between">
-            <h2
-              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px]"
-              style={{ fontFeatureSettings: "'cv11' 1" }}>
-              Latest <span className="text-[#26A4FF]">jobs open</span>
-            </h2>
-            <Link href="/jobs" className="hidden items-center gap-[16px] sm:flex">
-              <span className="text-[16px] font-semibold leading-[1.6] text-[#4640DE]">Show all jobs</span>
-              <span className="text-[#4640DE]">
-                <ArrowRightIcon className="h-6 w-6" />
-              </span>
-            </Link>
-          </div>
+          <SectionHeader>
+            Latest <span className="text-[#26A4FF]">jobs open</span>
+          </SectionHeader>
 
           {/* ── Job Cards: 2 columns ── */}
           {latestJobs.length > 0 ? (
@@ -69,13 +54,8 @@ export default function LatestJobs({ jobs = [] }) {
           )}
 
           {/* Mobile "Show all jobs" */}
-          <div className="text-center sm:hidden">
-            <Link
-              href="/jobs"
-              className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
-              Show all jobs
-              <ArrowRightIcon className="h-6 w-6" />
-            </Link>
+          <div className="text-center">
+            <MobileSectionLink />
           </div>
         </div>
       </div>

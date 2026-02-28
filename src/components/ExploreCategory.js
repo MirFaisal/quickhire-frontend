@@ -1,6 +1,4 @@
-import Link from "next/link";
 import {
-  ArrowRightIcon,
   DesignIcon,
   SalesIcon,
   MarketingIcon,
@@ -10,6 +8,8 @@ import {
   BusinessIcon,
   HRIcon,
 } from "./icons";
+import { CategoryCard, MobileCategoryCard } from "./CategoryCards";
+import SectionHeader, { MobileSectionLink } from "./SectionHeader";
 
 /* ── Static category data ── */
 const categories = [
@@ -29,17 +29,9 @@ export default function ExploreCategory() {
       <div className="mx-auto max-w-[1440px] px-[16px] pt-[40px] lg:px-[124px] lg:pt-[72px]">
         <div className="flex flex-col gap-[32px] lg:gap-[48px]">
           {/* ── Title Row ── */}
-          <div className="flex items-end justify-between">
-            <h2
-              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px] lg:leading-[1.1]"
-              style={{ fontFeatureSettings: "'cv11' 1" }}>
-              Explore by <span className="text-[#26A4FF]">category</span>
-            </h2>
-            <Link href="/jobs" className="hidden items-center gap-[16px] sm:flex">
-              <span className="text-[16px] font-semibold leading-[1.6] text-[#4640DE]">Show all jobs</span>
-              <ArrowRightIcon className="h-[24px] w-[24px] text-[#4640DE]" />
-            </Link>
-          </div>
+          <SectionHeader>
+            Explore by <span className="text-[#26A4FF]">category</span>
+          </SectionHeader>
 
           {/* ── Desktop: Category Grid ── */}
           <div className="hidden lg:flex lg:flex-col lg:gap-[32px]">
@@ -65,88 +57,11 @@ export default function ExploreCategory() {
           </div>
 
           {/* Mobile "Show all jobs" */}
-          <div className="pb-4 sm:hidden">
-            <Link
-              href="/jobs"
-              className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
-              Show all jobs
-              <ArrowRightIcon className="h-[24px] w-[24px]" />
-            </Link>
+          <div className="pb-4">
+            <MobileSectionLink />
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ── Individual Category Card ── */
-function CategoryCard({ category }) {
-  const { name, jobs, icon: Icon, highlight } = category;
-  const isActive = !!highlight;
-
-  return (
-    <Link href={`/jobs?category=${name}`} className="block">
-      <div
-        className={`flex flex-col gap-[32px] p-[32px] transition-colors ${
-          isActive
-            ? "bg-[#4640DE]"
-            : "border border-[#D6DDEB] bg-white hover:bg-[#4640DE] hover:border-transparent group"
-        }`}>
-        {/* Icon */}
-        <Icon
-          className={`h-[48px] w-[48px] ${isActive ? "text-white" : "text-[#4640DE] group-hover:text-white"}`}
-        />
-
-        {/* Category Name + Jobs Count */}
-        <div className="flex flex-col gap-[12px]">
-          <p
-            className={`font-clash text-[24px] font-semibold leading-[1.2] ${
-              isActive ? "text-white" : "text-[#25324B] group-hover:text-white"
-            }`}>
-            {name}
-          </p>
-          <div className="flex items-center gap-[16px]">
-            <p
-              className={`text-[18px] font-normal leading-[1.6] ${
-                isActive ? "text-white" : "text-[#7C8493] group-hover:text-white"
-              }`}>
-              {jobs} jobs available
-            </p>
-            <ArrowRightIcon
-              className={`h-[24px] w-[24px] ${
-                isActive ? "text-white" : "text-[#7C8493] group-hover:text-white"
-              }`}
-            />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-/* ── Mobile Category Card ── */
-function MobileCategoryCard({ category }) {
-  const { name, jobs, icon: Icon } = category;
-
-  return (
-    <Link href={`/jobs?category=${name}`} className="block">
-      <div className="flex items-center gap-[32px] border border-[#D6DDEB] bg-white p-[16px]">
-        {/* Icon — 24px on mobile */}
-        <Icon className="h-[24px] w-[24px] shrink-0 text-[#4640DE]" />
-
-        {/* Category Name + Jobs Count */}
-        <div className="flex flex-1 flex-col gap-[2px]">
-          <p
-            className="font-clash text-[20px] font-semibold leading-[1.2] text-[#25324B]"
-            style={{ fontFeatureSettings: "'cv11' 1" }}>
-            {name === "Human Resource" ? "Human Resources" : name}
-          </p>
-          <div className="flex items-center justify-between">
-            <p className="text-[16px] font-normal leading-[1.6] text-[#7C8493]">{jobs} jobs available</p>
-            <ArrowRightIcon className="h-[24px] w-[24px] text-[#7C8493]" />
-          </div>
-        </div>
-      </div>
-    </Link>
   );
 }
