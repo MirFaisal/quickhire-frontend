@@ -105,7 +105,7 @@ export function FeaturedJobCard({ job }) {
 
   return (
     <Link href={`/jobs/${job._id}`} className="block">
-      <div className="flex h-full flex-col items-start gap-[16px] border border-[#D6DDEB] bg-white p-[24px]">
+      <div className="flex h-full flex-col items-start gap-[16px] border border-[#D6DDEB] bg-white p-[16px]">
         {/* Header: Logo + Type Tag */}
         <div className="flex w-full items-start justify-between">
           <CompanyLogo company={job.company} size={80} />
@@ -120,9 +120,9 @@ export function FeaturedJobCard({ job }) {
         <div className="flex flex-col items-start gap-[2px]">
           <p className="text-[18px] font-semibold leading-[1.6] text-[#25324B]">{job.title}</p>
           <div className="flex items-center gap-[8px]">
-            <span className="text-[16px] font-normal leading-[1.6] text-[#515B6F]">{job.company}</span>
+            <span className="text-[14px] font-normal leading-[1.6] text-[#515B6F]">{job.company}</span>
             <span className="inline-block h-[4px] w-[4px] shrink-0 rounded-full bg-[#515B6F]" />
-            <span className="text-[16px] font-normal leading-[1.6] text-[#515B6F]">{job.location}</span>
+            <span className="text-[14px] font-normal leading-[1.6] text-[#515B6F]">{job.location}</span>
           </div>
         </div>
 
