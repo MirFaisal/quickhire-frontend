@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import HeroBanner from "@/components/HeroBanner";
 import CompanyLogos from "@/components/CompanyLogos";
 import ExploreCategory from "@/components/ExploreCategory";
+import CTASection from "@/components/CTASection";
 import { FeaturedJobCard, LatestJobCard } from "@/components/JobCard";
 import { ArrowRightIcon } from "@/components/icons";
 import { getJobs } from "@/lib/api";
@@ -37,22 +38,7 @@ export default async function HomePage() {
 
         <ExploreCategory />
 
-        {/* CTA Section */}
-        <section className="bg-primary py-16">
-          <div className="mx-auto max-w-[1192px] px-6 text-center lg:px-0">
-            <h2 className="font-clash text-4xl font-semibold text-white sm:text-5xl">
-              Start posting
-              <br />
-              jobs today
-            </h2>
-            <p className="mt-4 text-lg text-white/80">Start posting jobs for only $10.</p>
-            <Link
-              href="/"
-              className="mt-8 inline-block rounded-sm bg-white px-8 py-4 text-base font-bold text-primary transition hover:bg-neutral-10">
-              Sign Up For Free
-            </Link>
-          </div>
-        </section>
+        <CTASection />
 
         {/* Featured Jobs */}
         <section className="bg-white py-16">
