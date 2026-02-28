@@ -11,6 +11,7 @@ export default function JobListingsClient({
   initialSearch,
   initialCategory,
   initialLocation,
+  initialError,
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,9 +21,11 @@ export default function JobListingsClient({
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [jobs, setJobs] = useState(initialJobs);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(initialError || null);
 
   const fetchJobs = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (search.trim()) params.set("search", search.trim());
@@ -32,9 +35,16 @@ export default function JobListingsClient({
       const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
       const res = await fetch(`${API_BASE}/jobs?${params.toString()}`);
       const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || `Something went wrong (${res.status})`);
+      }
+
       setJobs(data.data || data || []);
     } catch (err) {
       console.error("Failed to fetch jobs:", err);
+      setError(err.message || "Failed to load jobs. Please try again.");
+      setJobs([]);
     } finally {
       setLoading(false);
     }
@@ -157,7 +167,20 @@ export default function JobListingsClient({
         </div>
 
         {/* Results */}
-        {loading ? (
+        {error ? (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-6 py-10 text-center">
+            <p className="text-lg font-semibold text-red-600">Something went wrong</p>
+            <p className="mt-2 text-sm text-red-500">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                fetchJobs();
+              }}
+              className="mt-4 rounded-sm bg-primary px-6 py-2 text-sm font-bold text-white transition hover:bg-primary/90">
+              Try Again
+            </button>
+          </div>
+        ) : loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
           </div>

@@ -13,6 +13,7 @@ export default async function JobsPage({ searchParams }) {
   const params = await searchParams;
   let jobs = [];
   let categories = [];
+  let error = null;
 
   try {
     const [jobsData, categoriesData] = await Promise.all([
@@ -25,8 +26,9 @@ export default async function JobsPage({ searchParams }) {
     ]);
     jobs = jobsData.data || jobsData || [];
     categories = categoriesData.data || categoriesData || [];
-  } catch (error) {
-    console.error("Failed to fetch data:", error.message);
+  } catch (err) {
+    console.error("Failed to fetch data:", err.message);
+    error = err.message || "Failed to load jobs.";
   }
 
   return (
@@ -56,6 +58,7 @@ export default async function JobsPage({ searchParams }) {
               initialSearch={params?.search || ""}
               initialCategory={params?.category || ""}
               initialLocation={params?.location || ""}
+              initialError={error}
             />
           </div>
         </section>
