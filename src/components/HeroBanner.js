@@ -7,7 +7,51 @@ const heroPattern = "/images/hero-pattern.png";
 export default function HeroBanner() {
   return (
     <section className="relative overflow-hidden bg-[#F8F8FD] lg:min-h-[716px]">
-      {/* Background pattern — positioned to match Figma: left ~580px, full height */}
+      {/* Mobile decorative pattern — rotated dashed-border rectangles (Figma 501:4373) */}
+      <div className="pointer-events-none absolute inset-0 lg:hidden" aria-hidden="true">
+        <div
+          className="absolute rounded-[24px] border-[2px] border-dashed border-[#CCCCF5]"
+          style={{
+            width: "200px",
+            height: "484px",
+            left: "217px",
+            top: "321px",
+            transform: "rotate(64deg)",
+          }}
+        />
+        <div
+          className="absolute rounded-[24px] border-[2px] border-dashed border-[#CCCCF5]"
+          style={{
+            width: "117px",
+            height: "253px",
+            left: "193px",
+            top: "339px",
+            transform: "rotate(64deg)",
+          }}
+        />
+        <div
+          className="absolute rounded-[24px] border-[2px] border-dashed border-[#CCCCF5]"
+          style={{
+            width: "195px",
+            height: "474px",
+            left: "117px",
+            top: "454px",
+            transform: "rotate(64deg)",
+          }}
+        />
+        <div
+          className="absolute rounded-[24px] border-[2px] border-dashed border-[#CCCCF5]"
+          style={{
+            width: "172px",
+            height: "436px",
+            left: "-31px",
+            top: "683px",
+            transform: "rotate(64deg)",
+          }}
+        />
+      </div>
+
+      {/* Desktop background pattern — positioned to match Figma: left ~580px, full height */}
       <div
         className="pointer-events-none absolute right-0 top-0 hidden h-full lg:block"
         style={{ width: "860px" }}>
@@ -35,18 +79,18 @@ export default function HeroBanner() {
         </div>
 
         {/* Content column — Figma: left 125px, top 160px from page top = ~82px from hero top */}
-        <div className="relative z-10 px-6 pb-12 pt-10 lg:pb-[100px] lg:pl-[125px] lg:pr-0 lg:pt-[82px]">
+        <div className="relative z-10 px-[16px] pb-[32px] pt-[16px] lg:pb-[100px] lg:pl-[125px] lg:pr-0 lg:pt-[82px]">
           <div className="flex flex-col items-start gap-[23px]">
             {/* Title + Scribble */}
             <div className="relative">
               <h1
-                className="font-clash text-[40px] font-semibold leading-[1.1] text-[#25324B] sm:text-[56px] lg:w-[533px] lg:text-[72px]"
+                className="font-clash text-[48px] font-semibold leading-[1.1] text-[#25324B] sm:text-[56px] lg:w-[533px] lg:text-[72px]"
                 style={{ fontFeatureSettings: "'cv11' 1" }}>
                 Discover more than <span className="text-[#26A4FF]">5000+ Jobs</span>
               </h1>
               {/* Blue scribble underline — exact Figma SVG path (455 × ~33) */}
               <svg
-                className="mt-[-4px] w-[280px] sm:w-[360px] lg:h-[33px] lg:w-[455px]"
+                className="mt-[-4px] w-[344px] sm:w-[360px] lg:h-[33px] lg:w-[455px]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 455 33"
                 fill="none">
@@ -58,7 +102,7 @@ export default function HeroBanner() {
             </div>
 
             {/* Description — Figma: Epilogue Regular 20px, leading 1.6, opacity 70%, w-521 */}
-            <p className="text-base leading-[1.6] text-[#515B6F] opacity-70 sm:text-lg lg:w-[521px] lg:text-[20px]">
+            <p className="text-[18px] leading-[1.6] text-[#515B6F] opacity-70 lg:w-[521px] lg:text-[20px]">
               Great platform for the job seeker that searching for new career heights and passionate about
               startups.
             </p>

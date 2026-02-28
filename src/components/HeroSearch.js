@@ -40,7 +40,7 @@ export default function HeroSearch() {
 
       {/* ── Location Input ── */}
       <div className="flex flex-1 items-center self-stretch">
-        <div className="flex h-full flex-1 items-center gap-[16px] pl-[8px] pr-[24px]">
+        <div className="flex h-full flex-1 items-center gap-[16px] pl-[16px] pr-[24px]">
           <LocationIcon className="h-[24px] w-[24px] shrink-0 text-[#25324B]" />
           <div className="flex h-full flex-1 flex-col items-start justify-between pt-[20px]">
             <div className="flex w-full items-center justify-between">
@@ -72,7 +72,7 @@ export default function HeroSearch() {
       </div>
 
       {/* ── Search Button ── */}
-      <div className="mt-4 flex items-center self-stretch sm:mt-0">
+      <div className="flex items-center self-stretch sm:mt-2">
         <button
           type="submit"
           className="flex h-full w-full items-center justify-center bg-[#4640DE] px-[27px] py-[14px] transition hover:bg-[#4640DE]/90">
