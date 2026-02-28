@@ -36,9 +36,11 @@ export default async function JobsPage({ searchParams }) {
         {/* Page Header */}
         <section className="bg-white">
           <div className="mx-auto max-w-[1192px] px-6 py-12 lg:px-0">
-            <h1 className="font-clash text-4xl font-semibold text-neutral-100 sm:text-5xl">
-              Find your <span className="text-secondary">dream job</span>
-            </h1>
+            <h2
+              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px] lg:leading-[1.1]"
+              style={{ fontFeatureSettings: "'cv11' 1" }}>
+              Find your <span className="text-[#26A4FF]">dream job</span>
+            </h2>
             <p className="mt-3 text-lg text-neutral-60">
               Find your next career at companies like HubSpot, Nike, and Dropbox
             </p>

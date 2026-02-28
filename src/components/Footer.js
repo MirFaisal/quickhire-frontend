@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FacebookIcon, InstagramIcon, DribbbleIcon, LinkedinIcon, TwitterIcon } from "./icons";
 
 export default function Footer() {
@@ -9,12 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-                <span className="text-sm font-bold text-white">Q</span>
-              </div>
-              <span className="text-2xl font-bold text-white">
-                Quick<span className="text-primary">Hire</span>
-              </span>
+              <Image src="/Logo-white.png" alt="QuickHire" width={152} height={36} />
             </Link>
             <p className="text-base leading-relaxed text-neutral-40">
               Great platform for the job seeker that passionate about startups. Find your dream job easier.
