@@ -1,25 +1,10 @@
 import Link from "next/link";
 import { LatestJobCard } from "./JobCard";
-
-/* ── Arrow Right SVG ── */
-function ArrowRight() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M5 12H19M19 12L12 5M19 12L12 19"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+import { ArrowRightIcon } from "./icons";
 
 /* ══════════════════════════════════════════════════════════════
-   Latest Jobs Open — pixel-perfect match of Figma node 501:1600
+   Latest Jobs Open
    BG: #F8F8FD with diagonal line pattern on right
-   Layout: px-[124px] pt-[72px], 2 cols × 4 rows, gap-[32px] / gap-[16px]
    ══════════════════════════════════════════════════════════════ */
 export default function LatestJobs({ jobs = [] }) {
   const latestJobs = jobs.slice(0, 8);
@@ -67,7 +52,7 @@ export default function LatestJobs({ jobs = [] }) {
             <Link href="/jobs" className="hidden items-center gap-[16px] sm:flex">
               <span className="text-[16px] font-semibold leading-[1.6] text-[#4640DE]">Show all jobs</span>
               <span className="text-[#4640DE]">
-                <ArrowRight />
+                <ArrowRightIcon className="h-6 w-6" />
               </span>
             </Link>
           </div>
@@ -89,7 +74,7 @@ export default function LatestJobs({ jobs = [] }) {
               href="/jobs"
               className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
               Show all jobs
-              <ArrowRight />
+              <ArrowRightIcon className="h-6 w-6" />
             </Link>
           </div>
         </div>

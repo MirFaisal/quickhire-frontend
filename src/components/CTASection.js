@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /* ══════════════════════════════════════════════════════════════
-   CTA Section — pixel-perfect match of Figma node 501:1598
+   CTA Section
    Layout: 1440 max-width, purple polygon BG, text left + dashboard right
    ══════════════════════════════════════════════════════════════ */
 
@@ -51,7 +51,7 @@ export default function CTASection() {
         </div>
       </div>
 
-      {/* ── Mobile Layout (Figma 501:4376) ── */}
+      {/* ── Mobile Layout ── */}
       <div className="relative overflow-hidden lg:hidden">
         {/* Solid purple background */}
         <div className="bg-[#4640DE] px-[16px] pb-[60px] pt-[88px]">
@@ -87,7 +87,7 @@ export default function CTASection() {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   Dashboard Mockup — CSS illustration matching Figma screenshot
+   Dashboard Mockup — CSS illustration
    Scaled at ~0.62x to fit 634×346 viewport, shows:
    - Sidebar with nav items
    - Header with company name + "Post a job" button

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  ArrowRightIcon,
   DesignIcon,
   SalesIcon,
   MarketingIcon,
@@ -10,7 +11,7 @@ import {
   HRIcon,
 } from "./icons";
 
-/* ── Static category data matching Figma 501:1597 exactly ── */
+/* ── Static category data ── */
 const categories = [
   { name: "Design", jobs: 235, icon: DesignIcon },
   { name: "Sales", jobs: 756, icon: SalesIcon },
@@ -21,27 +22,6 @@ const categories = [
   { name: "Business", jobs: 211, icon: BusinessIcon },
   { name: "Human Resource", jobs: 346, icon: HRIcon },
 ];
-
-/* ── Arrow Right SVG (inline, matches Figma icon) ── */
-function ArrowRight({ className = "" }) {
-  return (
-    <svg
-      className={className}
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M5 12H19M19 12L12 5M19 12L12 19"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 export default function ExploreCategory() {
   return (
@@ -57,11 +37,11 @@ export default function ExploreCategory() {
             </h2>
             <Link href="/jobs" className="hidden items-center gap-[16px] sm:flex">
               <span className="text-[16px] font-semibold leading-[1.6] text-[#4640DE]">Show all jobs</span>
-              <ArrowRight className="h-[24px] w-[24px] text-[#4640DE]" />
+              <ArrowRightIcon className="h-[24px] w-[24px] text-[#4640DE]" />
             </Link>
           </div>
 
-          {/* ── Desktop: Category Grid: 2 rows × 4 cols, gap-32 ── */}
+          {/* ── Desktop: Category Grid ── */}
           <div className="hidden lg:flex lg:flex-col lg:gap-[32px]">
             {/* Row 1 */}
             <div className="grid grid-cols-4 gap-[32px]">
@@ -77,7 +57,7 @@ export default function ExploreCategory() {
             </div>
           </div>
 
-          {/* ── Mobile: Single column list (Figma 501:4375) ── */}
+          {/* ── Mobile: Single column list ── */}
           <div className="flex flex-col lg:hidden">
             {categories.map((cat) => (
               <MobileCategoryCard key={cat.name} category={cat} />
@@ -90,7 +70,7 @@ export default function ExploreCategory() {
               href="/jobs"
               className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
               Show all jobs
-              <ArrowRight className="h-[24px] w-[24px]" />
+              <ArrowRightIcon className="h-[24px] w-[24px]" />
             </Link>
           </div>
         </div>
@@ -132,7 +112,7 @@ function CategoryCard({ category }) {
               }`}>
               {jobs} jobs available
             </p>
-            <ArrowRight
+            <ArrowRightIcon
               className={`h-[24px] w-[24px] ${
                 isActive ? "text-white" : "text-[#7C8493] group-hover:text-white"
               }`}
@@ -144,7 +124,7 @@ function CategoryCard({ category }) {
   );
 }
 
-/* ── Mobile Category Card (Figma 501:4375) ── */
+/* ── Mobile Category Card ── */
 function MobileCategoryCard({ category }) {
   const { name, jobs, icon: Icon } = category;
 
@@ -163,7 +143,7 @@ function MobileCategoryCard({ category }) {
           </p>
           <div className="flex items-center justify-between">
             <p className="text-[16px] font-normal leading-[1.6] text-[#7C8493]">{jobs} jobs available</p>
-            <ArrowRight className="h-[24px] w-[24px] text-[#7C8493]" />
+            <ArrowRightIcon className="h-[24px] w-[24px] text-[#7C8493]" />
           </div>
         </div>
       </div>

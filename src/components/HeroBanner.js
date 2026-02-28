@@ -7,7 +7,7 @@ const heroPattern = "/images/hero-pattern.png";
 export default function HeroBanner() {
   return (
     <section className="relative overflow-hidden bg-[#F8F8FD] lg:min-h-[716px]">
-      {/* Mobile decorative pattern — rotated dashed-border rectangles (Figma 501:4373) */}
+      {/* Mobile decorative pattern */}
       <div className="pointer-events-none absolute inset-0 lg:hidden" aria-hidden="true">
         <div
           className="absolute rounded-[24px] border-[2px] border-dashed border-[#CCCCF5]"
@@ -51,7 +51,7 @@ export default function HeroBanner() {
         />
       </div>
 
-      {/* Desktop background pattern — positioned to match Figma: left ~580px, full height */}
+      {/* Desktop background pattern */}
       <div
         className="pointer-events-none absolute right-0 top-0 hidden h-full lg:block"
         style={{ width: "860px" }}>
@@ -59,7 +59,7 @@ export default function HeroBanner() {
       </div>
 
       <div className="relative mx-auto max-w-[1440px]">
-        {/* Hero Man Image — Figma: left ~812px, top 87px from page top = ~9px from hero top, 501×707 */}
+        {/* Hero Man Image */}
         <div className="absolute right-[127px] top-[9px] z-[1] hidden h-[707px] w-[501px] lg:block">
           <Image
             src={heroManImage}
@@ -78,7 +78,7 @@ export default function HeroBanner() {
           />
         </div>
 
-        {/* Content column — Figma: left 125px, top 160px from page top = ~82px from hero top */}
+        {/* Content column */}
         <div className="relative z-10 px-[16px] pb-[32px] pt-[16px] lg:pb-[100px] lg:pl-[125px] lg:pr-0 lg:pt-[82px]">
           <div className="flex flex-col items-start gap-[23px]">
             {/* Title + Scribble */}
@@ -88,7 +88,7 @@ export default function HeroBanner() {
                 style={{ fontFeatureSettings: "'cv11' 1" }}>
                 Discover more than <span className="text-[#26A4FF]">5000+ Jobs</span>
               </h1>
-              {/* Blue scribble underline — exact Figma SVG path (455 × ~33) */}
+              {/* Blue scribble underline */}
               <svg
                 className="mt-[-4px] w-[344px] sm:w-[360px] lg:h-[33px] lg:w-[455px]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,13 +101,13 @@ export default function HeroBanner() {
               </svg>
             </div>
 
-            {/* Description — Figma: Epilogue Regular 20px, leading 1.6, opacity 70%, w-521 */}
+            {/* Description */}
             <p className="text-[18px] leading-[1.6] text-[#515B6F] opacity-70 lg:w-[521px] lg:text-[20px]">
               Great platform for the job seeker that searching for new career heights and passionate about
               startups.
             </p>
 
-            {/* Search + Popular (gap-16 from Figma) */}
+            {/* Search + Popular */}
             <div className="flex w-full flex-col items-start gap-[16px]">
               <div className="w-full lg:w-[852px]">
                 <HeroSearch />

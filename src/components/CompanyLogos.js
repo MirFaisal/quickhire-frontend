@@ -29,7 +29,7 @@ export default function CompanyLogos() {
             ))}
           </div>
 
-          {/* Mobile: 2-column grid matching Figma 501:4374 */}
+          {/* Mobile: 2-column grid */}
           <div className="md:hidden">
             <div className="flex gap-[73px]">
               {/* Left column */}

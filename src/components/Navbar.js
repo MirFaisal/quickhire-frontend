@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-white">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-[16px] pb-[16px] pt-[8px] shadow-[inset_0px_-1px_0px_0px_#D6DDEB] md:px-6 md:pb-0 md:pt-0 md:shadow-none lg:px-[124px]">
-        {/* Left: Logo + Menu (gap-48 from Figma) */}
+        {/* Left: Logo + Menu */}
         <div className="flex items-center self-stretch">
           <div className="flex items-center gap-[48px] self-stretch">
             {/* Logo */}
@@ -19,7 +19,7 @@ export default function Navbar() {
               <Image src="/Logo.png" alt="QuickHire" width={152} height={36} className="mt-[2px] shrink-0" />
             </Link>
 
-            {/* Desktop Nav Links (gap-16 from Figma) */}
+            {/* Desktop Nav Links */}
             <div className="hidden items-end gap-[16px] self-stretch md:flex">
               <Link href="/jobs" className="flex flex-col items-start border-b-4 border-[#4640DE] py-[24px]">
                 <span className="text-[16px] font-medium leading-[1.6] text-[#4640DE]">Find Jobs</span>
@@ -31,7 +31,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right: Auth Buttons (gap-16, h-78 from Figma) */}
+        {/* Right: Auth Buttons */}
         <div className="hidden h-[78px] items-center justify-center gap-[16px] md:flex">
           <Link href="/" className="flex items-center justify-center px-[24px] py-[12px]">
             <span className="text-[16px] font-bold leading-[1.6] text-[#4640DE]">Login</span>
