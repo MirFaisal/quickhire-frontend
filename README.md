@@ -14,12 +14,14 @@ designs.
 - **Server Components** — Pages use Next.js App Router server components for fast initial loads
 - **Responsive Design** — Fully responsive across desktop, tablet, and mobile
 - **SEO** — Dynamic meta titles/descriptions on every page
+- **Modular Components** — Reusable section headers, job cards, category cards, and icon system
 
 ## Tech Stack
 
 - **Next.js 16** (App Router)
 - **React 19**
 - **Tailwind CSS v4**
+- **Swiper 11** (carousels)
 - **Epilogue** (body font, Google Fonts)
 - **Clash Display** (heading font, Fontshare)
 
@@ -28,11 +30,16 @@ designs.
 ### Prerequisites
 
 - Node.js 18+
-- Backend API running at `http://localhost:5000`
+- QuickHire Backend API — [deployed](https://quickhire-backend-xs81.onrender.com) or running locally
 
 ### Installation
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/MirFaisal/QuickHire-frontend.git
+cd quickhire-frontend
+
+# 2. Install dependencies
 npm install
 ```
 
@@ -41,8 +48,10 @@ npm install
 Create `.env.local`:
 
 ```
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=https://quickhire-backend-xs81.onrender.com/api
 ```
+
+> For local development, use `http://localhost:5000/api` instead.
 
 ### Development
 
@@ -64,26 +73,38 @@ npm start
 ```
 src/
 ├── app/
-│   ├── globals.css          # Tailwind + design tokens
-│   ├── layout.js            # Root layout with fonts & meta
-│   ├── loading.js           # Loading spinner
-│   ├── not-found.js         # 404 page
-│   ├── page.js              # Landing page (server component)
+│   ├── globals.css               # Tailwind v4 + design tokens
+│   ├── layout.js                 # Root layout with fonts & meta
+│   ├── loading.js                # Loading spinner
+│   ├── not-found.js              # 404 page
+│   ├── page.js                   # Landing page (server component)
 │   └── jobs/
-│       ├── page.js           # Job listings (server component)
-│       ├── JobListingsClient.js  # Client-side search/filter
+│       ├── page.js               # Job listings (server component)
+│       ├── JobListingsClient.js  # Client-side search/filter with debounce
 │       └── [id]/
-│           ├── page.js       # Job detail (server component)
-│           └── ApplyForm.js  # Application form (client component)
+│           ├── page.js           # Job detail (server component)
+│           └── ApplyForm.js      # Application form (client component)
 ├── components/
-│   ├── Navbar.js            # Navigation bar
-│   ├── Footer.js            # Footer
-│   ├── HeroSearch.js        # Hero search form
-│   ├── JobCard.js           # FeaturedJobCard + LatestJobCard
-│   ├── CategoryCard.js      # Category card
-│   └── icons.js             # SVG icon components
+│   ├── Navbar.js                 # Navigation bar with mobile hamburger menu
+│   ├── Footer.js                 # Site footer with links
+│   ├── HeroBanner.js             # Hero section with background pattern & image
+│   ├── HeroSearch.js             # Search bar in hero section
+│   ├── CompanyLogos.js           # Company logo strip
+│   ├── ExploreCategory.js        # Category explorer section (Swiper carousel on mobile)
+│   ├── CategoryCards.js          # CategoryCard + MobileCategoryCard components
+│   ├── FeaturedJobs.js           # Featured jobs section
+│   ├── LatestJobs.js             # Latest jobs section
+│   ├── CTASection.js             # Call-to-action section
+│   ├── DashboardMockup.js        # CSS-only dashboard illustration for CTA
+│   ├── SectionHeader.js          # Reusable section header with "Show all" link
+│   ├── JobCard.js                # Barrel re-export for job card components
+│   ├── FeaturedJobCard.js        # Featured job card component
+│   ├── LatestJobCard.js          # Latest job card component
+│   ├── JobTag.js                 # Tag with category-based color system
+│   ├── CompanyLogo.js            # Deterministic company logo generator
+│   └── icons.js                  # SVG icon components (ArrowRight, Search, Map, etc.)
 └── lib/
-    └── api.js               # API utility functions
+    └── api.js                    # API utility functions (getJobs, getJobById, getCategories, submitApplication)
 ```
 
 ## Design System
@@ -95,6 +116,7 @@ src/
 | Neutral 100   | `#25324B` |
 | Neutral 80    | `#515B6F` |
 | Neutral 60    | `#7C8493` |
+| Neutral 20    | `#D6DDEB` |
 | Background    | `#F8F8FD` |
 | Accent Green  | `#56CDAD` |
 | Accent Yellow | `#FFB836` |
@@ -109,3 +131,7 @@ src/
 | GET    | `/api/jobs/:id`     | Get single job                                               |
 | GET    | `/api/categories`   | List all categories                                          |
 | POST   | `/api/applications` | Submit application                                           |
+
+## Author
+
+**Mir Faisal Ahmad**
