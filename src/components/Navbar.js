@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-white">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 lg:px-[124px]">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-[16px] pb-[16px] pt-[8px] shadow-[inset_0px_-1px_0px_0px_#D6DDEB] md:px-6 md:pb-0 md:pt-0 md:shadow-none lg:px-[124px]">
         {/* Left: Logo + Menu (gap-48 from Figma) */}
         <div className="flex items-center self-stretch">
           <div className="flex items-center gap-[48px] self-stretch">
@@ -67,11 +67,14 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
+        <button
+          className="flex items-center justify-center rounded-full border border-[#D6DDEB] bg-white p-[8px] md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu">
           {mobileOpen ? (
-            <CloseIcon className="h-6 w-6 text-[#25324B]" />
+            <CloseIcon className="h-[24px] w-[24px] text-[#25324B]" />
           ) : (
-            <MenuIcon className="h-6 w-6 text-[#25324B]" />
+            <MenuIcon className="h-[24px] w-[24px] text-[#25324B]" />
           )}
         </button>
       </div>
