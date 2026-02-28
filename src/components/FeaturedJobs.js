@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { FeaturedJobCard } from "./JobCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 /* ── Arrow Right SVG ── */
 function ArrowRight() {
@@ -21,12 +25,12 @@ export default function FeaturedJobs({ jobs = [] }) {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-[1440px] px-6 pb-[72px] lg:px-[124px]">
-        <div className="flex flex-col gap-[48px]">
+      <div className="mx-auto max-w-[1440px] px-[16px] pb-[40px] pt-0 lg:px-[124px] lg:pb-[72px]">
+        <div className="flex flex-col gap-[24px] lg:gap-[48px]">
           {/* ── Title Row ── */}
           <div className="flex items-end justify-between">
             <h2
-              className="font-clash text-[32px] font-semibold leading-[1.1] text-[#25324B] sm:text-[40px] lg:text-[48px]"
+              className="font-clash text-[32px] font-semibold leading-[1.2] text-[#25324B] lg:text-[48px] lg:leading-[1.1]"
               style={{ fontFeatureSettings: "'cv11' 1" }}>
               Featured <span className="text-[#26A4FF]">jobs</span>
             </h2>
@@ -38,30 +42,49 @@ export default function FeaturedJobs({ jobs = [] }) {
             </Link>
           </div>
 
-          {/* ── Job Cards Grid: 2 rows × 4 cols ── */}
+          {/* ── Desktop: Job Cards Grid 2 rows × 4 cols ── */}
           {featuredJobs.length > 0 ? (
-            <div className="flex flex-col gap-[32px]">
-              {/* Row 1 */}
-              <div className="grid grid-cols-1 gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
-                {featuredJobs.slice(0, 4).map((job) => (
-                  <FeaturedJobCard key={job._id} job={job} />
-                ))}
-              </div>
-              {/* Row 2 */}
-              {featuredJobs.length > 4 && (
-                <div className="grid grid-cols-1 gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
-                  {featuredJobs.slice(4, 8).map((job) => (
+            <>
+              <div className="hidden lg:flex lg:flex-col lg:gap-[32px]">
+                {/* Row 1 */}
+                <div className="grid grid-cols-4 gap-[32px]">
+                  {featuredJobs.slice(0, 4).map((job) => (
                     <FeaturedJobCard key={job._id} job={job} />
                   ))}
                 </div>
-              )}
-            </div>
+                {/* Row 2 */}
+                {featuredJobs.length > 4 && (
+                  <div className="grid grid-cols-4 gap-[32px]">
+                    {featuredJobs.slice(4, 8).map((job) => (
+                      <FeaturedJobCard key={job._id} job={job} />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* ── Mobile: Swiper slider (Figma 501:4377) ── */}
+              <div className="lg:hidden">
+                <Swiper
+                  spaceBetween={16}
+                  slidesPerView={1.15}
+                  breakpoints={{
+                    480: { slidesPerView: 1.5 },
+                    640: { slidesPerView: 2.2 },
+                  }}>
+                  {featuredJobs.map((job) => (
+                    <SwiperSlide key={job._id}>
+                      <FeaturedJobCard job={job} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </>
           ) : (
             <p className="text-center text-[16px] text-[#7C8493]">No jobs available yet. Check back soon!</p>
           )}
 
           {/* Mobile "Show all jobs" */}
-          <div className="text-center sm:hidden">
+          <div className="sm:hidden">
             <Link
               href="/jobs"
               className="inline-flex items-center gap-[16px] text-[16px] font-semibold text-[#4640DE]">
