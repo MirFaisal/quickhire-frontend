@@ -3,10 +3,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroBanner from "@/components/HeroBanner";
 import CompanyLogos from "@/components/CompanyLogos";
-import CategoryCard from "@/components/CategoryCard";
+import ExploreCategory from "@/components/ExploreCategory";
 import { FeaturedJobCard, LatestJobCard } from "@/components/JobCard";
 import { ArrowRightIcon } from "@/components/icons";
-import { getJobs, getCategories } from "@/lib/api";
+import { getJobs } from "@/lib/api";
 
 export const metadata = {
   title: "QuickHire - Discover More Than 5000+ Jobs",
@@ -16,12 +16,10 @@ export const metadata = {
 
 export default async function HomePage() {
   let jobs = [];
-  let categories = [];
 
   try {
-    const [jobsData, categoriesData] = await Promise.all([getJobs(), getCategories()]);
+    const jobsData = await getJobs();
     jobs = jobsData.data || jobsData || [];
-    categories = categoriesData.data || categoriesData || [];
   } catch (error) {
     console.error("Failed to fetch data:", error.message);
   }
@@ -37,61 +35,7 @@ export default async function HomePage() {
 
         <CompanyLogos />
 
-        {/* Explore by Category */}
-        <section className="bg-white py-16">
-          <div className="mx-auto max-w-[1192px] px-6 lg:px-0">
-            <div className="mb-12 flex items-end justify-between">
-              <h2 className="font-clash text-4xl font-semibold text-neutral-100 sm:text-5xl">
-                Explore by <span className="text-secondary">category</span>
-              </h2>
-              <Link
-                href="/jobs"
-                className="hidden items-center gap-2 text-base font-semibold text-primary transition hover:underline sm:flex">
-                Show all jobs <ArrowRightIcon className="h-5 w-5" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {categories.length > 0
-                ? categories.slice(0, 8).map((cat, i) => (
-                    <CategoryCard
-                      key={cat._id}
-                      category={cat}
-                      jobCount={
-                        jobs.filter((j) => {
-                          const catId = typeof j.category === "object" ? j.category?._id : j.category;
-                          return catId === cat._id;
-                        }).length
-                      }
-                      highlight={i === 2}
-                    />
-                  ))
-                : [
-                    "Design",
-                    "Sales",
-                    "Marketing",
-                    "Finance",
-                    "Technology",
-                    "Engineering",
-                    "Business",
-                    "Human Resource",
-                  ].map((name, i) => (
-                    <CategoryCard
-                      key={name}
-                      category={{ _id: name, name }}
-                      jobCount={0}
-                      highlight={i === 2}
-                    />
-                  ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link
-                href="/jobs"
-                className="inline-flex items-center gap-2 text-base font-semibold text-primary">
-                Show all jobs <ArrowRightIcon className="h-5 w-5" />
-              </Link>
-            </div>
-          </div>
-        </section>
+        <ExploreCategory />
 
         {/* CTA Section */}
         <section className="bg-primary py-16">
