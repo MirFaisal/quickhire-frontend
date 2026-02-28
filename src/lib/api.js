@@ -2,13 +2,20 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/a
 
 async function fetchAPI(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
-  const res = await fetch(url, {
+  const method = (options.method || "GET").toUpperCase();
+  const fetchOptions = {
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
     },
-  });
+  };
+
+  if (method === "GET" && fetchOptions.cache === undefined && fetchOptions.next === undefined) {
+    fetchOptions.cache = "no-store";
+  }
+
+  const res = await fetch(url, fetchOptions);
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
